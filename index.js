@@ -5,10 +5,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const admin = require('firebase-admin');
 const { generateJWT } = require('./auth');
-const sharp = require("sharp");
-const axios = require("axios");
-const FormData = require("form-data");
-const IMGBB_API_KEY = process.env.IMGBB_API_KEY;
 const port = process.env.PORT || 5000;
 
 // Middleware
@@ -71,6 +67,9 @@ async function run() {
         const db = client.db("JUSTDC");
         const userCollection = db.collection("users");
         const eventsCollection = db.collection("events");
+        const galleryCollection = db.collection("gallery");
+        const membersCollection = db.collection("members");
+        const alumniCollection = db.collection("alumni");
 
         //Users Related API
         app.post('/users', async (req, res) => {
@@ -117,6 +116,66 @@ async function run() {
                 res.status(500).json({ message: "Failed to add event", error: err.message });
             }
         });
+
+
+
+
+
+
+
+
+        // gallery Portion
+        app.post('/gallery', verifyFirebaseToken, async (req, res) => {
+            const { title, caption, image } = req.body;
+
+            if (!title || !caption || !image) {
+                return res.status(400).json({ message: "All fields are required." });
+            }
+
+            try {
+                // Insert gallery item into MongoDB
+                const result = await galleryCollection.insertOne({
+                    title,
+                    caption,
+                    image,
+                    createdAt: new Date(),
+                });
+
+                // Check if insertion was successful
+                if (result.acknowledged) {
+                    res.status(201).json({
+                        message: "Gallery item added successfully",
+                        galleryItem: { _id: result.insertedId, title, caption, image }
+                    });
+                } else {
+                    res.status(500).json({ message: "Failed to add gallery item" });
+                }
+            } catch (err) {
+                console.error("Error adding gallery item:", err);
+                res.status(500).json({ message: "Failed to add gallery item" });
+            }
+        });
+
+
+        // GET Route to Fetch All Gallery Items
+        app.get('/gallery', async (req, res) => {
+            try {
+                const galleryItems = await galleryCollection.find().toArray();
+                res.status(200).json(galleryItems);
+            } catch (err) {
+                console.error("Error fetching gallery items:", err);
+                res.status(500).json({ message: "Failed to fetch gallery items" });
+            }
+        });
+
+
+
+
+
+
+        // Alumni Portion
+
+
 
 
 
