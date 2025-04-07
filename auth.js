@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const admin = require('./firebase-admin'); // Import Firebase Admin
+const admin = require('./firebase-admin');
 
 // Function to generate JWT token
 const generateJWT = (user) => {
@@ -8,7 +8,7 @@ const generateJWT = (user) => {
         uid: user.uid
     };
 
-    // Sign the token with the JWT secret and set an expiration time (e.g., 1 hour)
+    // Sign the token with the JWT secret and set an expiration time
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     return token;

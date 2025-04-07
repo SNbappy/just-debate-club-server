@@ -1,7 +1,5 @@
-// config/firebase-admin.js
-
 const admin = require('firebase-admin');
-const serviceAccount = require('./just-debate-club-firebase-adminsdk-fbsvc-914081a719.json'); // replace with the actual path
+const serviceAccount = require('./just-debate-club-firebase-adminsdk-fbsvc-914081a719.json');
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({

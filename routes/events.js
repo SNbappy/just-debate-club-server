@@ -30,7 +30,7 @@ module.exports = (collections) => {
         try {
             const newEvent = {
                 title,
-                eventDate: new Date(date), // ✅ Save consistently as eventDate
+                eventDate: new Date(date), //Save consistently as eventDate
                 description,
                 image,
                 user: req.user.email,

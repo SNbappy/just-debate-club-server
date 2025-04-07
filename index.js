@@ -10,7 +10,7 @@ const { connectToMongo, getCollections, client } = require('./utils/db');
 const userRoutes = require('./routes/users');
 const eventRoutes = require('./routes/events');
 const galleryRoutes = require('./routes/gallery');
-// const alumniRoutes = require('./routes/alumni'); // You can add this later
+const alumniRoutes = require('./routes/alumni'); 
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -35,7 +35,7 @@ connectToMongo().then(() => {
     app.use('/users', userRoutes(collections));
     app.use('/events', eventRoutes(collections));
     app.use('/gallery', galleryRoutes(collections));
-    // app.use('/alumni', alumniRoutes(collections));
+    app.use('/alumni', alumniRoutes(collections));
 
     // Firebase login route
     app.post('/login', async (req, res) => {
