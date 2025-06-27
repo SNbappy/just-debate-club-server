@@ -1,3 +1,4 @@
 node_modules
 .env
 just-debate-club-firebase-adminsdk-fbsvc-914081a719.json
+.vercel
